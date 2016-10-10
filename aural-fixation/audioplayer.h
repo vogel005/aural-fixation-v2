@@ -1,13 +1,16 @@
 #ifndef AUDIOPLAYER_H
 #define AUDIOPLAYER_H
 #include "playlist.h"
+#include "mainwindow.h"
+#include "ui_mainwindow.h"
+#include <QStringList>
 
 class AudioPlayer
 {
 public:
     AudioPlayer();
 private:
-    Playlist CurrentPlaylist;
+    QStringList CurrentPlaylist;
 
     void shuffle();
     void play();
