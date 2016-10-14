@@ -1,15 +1,18 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
 #include "qlistwidget.h"
+#include "audioplayer.h"
 #include <QListWidget>
 #include <QListWidgetItem>
 #include <QMediaPlayer>
 #include <QFileDialog>
 #include <QMessageBox>
+#include <QList>
 
 
 QMediaPlayer* player;
 QString filename;
+QList<QString> currentQueue;
 
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
@@ -81,14 +84,19 @@ void MainWindow::on_actionAddNewTrack_triggered()
     QString name = f.fileName();
     QStringList parts = name.split("/");
     QString lastBit = parts.at(parts.size()-1);
+    currentQueue.push_back(filename);
 
     //add the item to the UI list
     ui->listWidget->addItem(lastBit);
     ui->playButton->setText("Play");
+
+
+
 }
 
 void MainWindow::on_listWidget_itemDoubleClicked(QListWidgetItem *item)
 {
-    player->setMedia(QUrl::fromLocalFile(filename));
+    int index = (item->listWidget()->row(item))-1;
+    player->setMedia(QUrl::fromLocalFile(currentQueue.at(index)));
     ui->currentSong->setText(item->text());
 }
